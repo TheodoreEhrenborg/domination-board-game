@@ -1,6 +1,74 @@
 class Board:
-    def __init__(self, currentboard=["", "x", "x", "", "", "", "", "x", "x", "x", "r", "r", "g", "g", "r", "r", "x", "", "g", "g", "r", "r", "g", "g", "", "", "r", "r", "g", "g", "r",
-                                     "r", "", "", "g", "g", "r", "r", "g", "g", "", "", "r", "r", "g", "g", "r", "r", "", "x", "g", "g", "r", "r", "g", "g", "x", "x", "x", "", "", "", "", "x", "x"], side="r",):
+    def __init__(
+        self,
+        currentboard=[
+            "",
+            "x",
+            "x",
+            "",
+            "",
+            "",
+            "",
+            "x",
+            "x",
+            "x",
+            "r",
+            "r",
+            "g",
+            "g",
+            "r",
+            "r",
+            "x",
+            "",
+            "g",
+            "g",
+            "r",
+            "r",
+            "g",
+            "g",
+            "",
+            "",
+            "r",
+            "r",
+            "g",
+            "g",
+            "r",
+            "r",
+            "",
+            "",
+            "g",
+            "g",
+            "r",
+            "r",
+            "g",
+            "g",
+            "",
+            "",
+            "r",
+            "r",
+            "g",
+            "g",
+            "r",
+            "r",
+            "",
+            "x",
+            "g",
+            "g",
+            "r",
+            "r",
+            "g",
+            "g",
+            "x",
+            "x",
+            "x",
+            "",
+            "",
+            "",
+            "",
+            "x",
+            "x"],
+        side="r",
+    ):
         self.reserve = currentboard[0]
         self.mainboard = currentboard[1:]
         self.moves = {"g": self.findmoves("g"), "r": self.findmoves("r")}
@@ -45,8 +113,16 @@ class Board:
             # print i, skeleton[i],x,y,((x<3 and y>37) or (x<5 and y>43) or
             # (x<3 and y<13) or (x<5 and y<7) or  (x>15 and y>37) or (x>13 and
             # y>43) or (x>15 and y<13) or (x>13 and y<7)) and x<18
-            if ((x < 4 and y > 37) or (x < 6 and y > 43) or (x < 4 and y < 13) or (x < 6 and y < 7) or (x > 16 and y > 37) or (
-                    x > 14 and y > 43) or (x > 16 and y < 13) or (x > 14 and y < 7)) and x < 19 and skeleton[i] not in "abcdefgh12345678":
+            if (
+                (
+                    x < 4 and y > 37) or (
+                    x < 6 and y > 43) or (
+                    x < 4 and y < 13) or (
+                    x < 6 and y < 7) or (
+                        x > 16 and y > 37) or (
+                            x > 14 and y > 43) or (
+                                x > 16 and y < 13) or (
+                                    x > 14 and y < 7)) and x < 19 and skeleton[i] not in "abcdefgh12345678":
                 skeleton = self.switch(skeleton, i, " ")
         skeleton = self.switch(skeleton, 931, "g:", 2)
         skeleton = self.switch(skeleton, 912, "r:", 2)
@@ -181,7 +257,7 @@ class Board:
                     self.reserve += piece
             self.side = self.opponent(self.side)
             self.moves = {"g": self.findmoves("g"), "r": self.findmoves("r")}
-        if send == True:
+        if send:
             return self
 
     def clean(self, firstlist):
@@ -220,7 +296,7 @@ class Board:
         for i in range(0, 64):
             if self.mainboard[i] != "x" and self.mainboard[i] != "":
                 towers = True
-        if towers == False:
+        if not towers:
             self.good_moves = move_list
 # return move_list #If the board has no towers, the player must make a
 # reserve move on empty space.

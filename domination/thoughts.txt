@@ -1,0 +1,17 @@
+#Computer10 will use iterative deepening. It will use ordering only at the first level. It will get the ordering from the last iteration
+#Computer11 might use ordering at the first two levels from previous iterations. It may be possible to use all levels of previous iterations, maybe with a hash table.
+#Can processing become faster if r and g are replaced by something more binary?
+#Make the computer able to play versus itself, repeatedly. That is, a Dom program should ask the user who the players should be, and their time limits and characteristics.
+#Is it a waste to use e to the power?
+#Change the static evaluator such that it considers not only relative moves, but also centrality, height of towers, etc. To do this, have Dom strategies evolve against each other.
+# If the game becomes repetitive or there are no more captures, maybe the computer should adjust its strategy. Maybe try to combine towers to get reserves.
+
+
+
+
+        
+        
+            
+
+
+

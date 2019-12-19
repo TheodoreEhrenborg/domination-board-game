@@ -67,13 +67,22 @@ class Board:
             "",
             "x",
             "x"],
-        side="r",
+            side="r", optimize=False, moves=None
     ):
         self.reserve = currentboard[0]
         self.main_board = currentboard[1:]
-        self.moves = {"g": self.findmoves("g"), "r": self.findmoves("r")}
         self.side = side
+        self.optimize = optimize
+        if not optimize:
+            self.calculate_moves()
+        else:
+            self.moves = moves
         self.good_moves = None
+
+    def calculate_moves(self):
+        '''Goes out and finds the moves.
+        I try to optimize this away.'''
+        self.moves = {"g": self.findmoves("g"), "r": self.findmoves("r")}
 
     def create_skeleton(self):
         open = "| "
@@ -256,7 +265,12 @@ class Board:
                 if piece == self.side:
                     self.reserve += piece
             self.side = self.opponent(self.side)
-            self.moves = {"g": self.findmoves("g"), "r": self.findmoves("r")}
+            if not self.optimize:
+                self.moves = {
+                    "g": self.findmoves("g"),
+                    "r": self.findmoves("r")}
+            else:
+                self.moves = None
         if send:
             return self
 
@@ -270,7 +284,8 @@ class Board:
         return newlist
 
     def copy(self):
-        return Board([self.reserve] + self.main_board, self.side)
+        return Board([self.reserve] + self.main_board,
+                     self.side, self.optimize, self.moves)
 
     def score(self, side, which=5):
         if which == 1:
@@ -316,7 +331,8 @@ class Board:
         return 1 - 1 / (1 + odds)
 
     def score4(self, side):
-        '''Returns ratio of number of pieces, in probability form'''
+        '''Returns ratio of number of pieces, in probability form.
+        This isn't great, as it hovers near .5 pretty much always.'''
         r_total = self.reserve.count('r')
         g_total = self.reserve.count('g')
         for x in self.main_board:

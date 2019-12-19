@@ -251,6 +251,10 @@ class Computer12:
         from time import time
         end_time = time() + time_limit
         best_list = []
+        if depth == 0:
+            import random
+            c.find_good_moves_for_the_side_to_play()
+            return [random.choice(c.good_moves), .5, 0]
         for a_depth in range(1, depth + 1):
             alpha = 0
             beta = 1
@@ -333,17 +337,22 @@ class Tree:
         from time import time
         end_time = time() + time_limit
         self.scoring = scoring
+        start_board = start_board.copy()
+        start_board.optimize = True
         self.ur_node = Node(start_board, None)
         self.ur_side = start_board.side
         while time() < end_time:
+            #            print('a', time(), end_time)
             current_node = self.ur_node
             while not current_node.is_leaf():
                 # Choose a child node using the magic formula
+                #                print('b', time())
                 best_child = current_node.children[0]
                 for child in current_node.children:
                     if child.magic_formula(
                             self.ur_side) > best_child.magic_formula(self.ur_side):
                         best_child = child
+                current_node = best_child
             # Now add children to the leaf node
             current_node.add_children()
             # Now run the static evaluator on the leaf,
@@ -352,6 +361,7 @@ class Tree:
             if static_score not in (0, 1):
                 static_score = current_node.board.score(
                     self.ur_side, self.scoring)
+#            print('c', time())
             while current_node is not None:
                 current_node.eval_count += 1
                 current_node.eval_sum += static_score
@@ -377,6 +387,8 @@ class Tree:
         for child in self.ur_node.children:
             if child.eval_count > best_child.eval_count:
                 best_child = child
+            print(child.last_move, child.eval_average,
+                  child.eval_count)
         return (best_child.last_move, best_child.eval_average,
                 best_child.eval_count)
 
@@ -401,11 +413,15 @@ class Node:
         values. It takes into account which side we are currently
         on. I got this from the MCTS Wikipedia page.'''
         import math
+        CURIOUSITY = 0.5
+        # Wikipedia suggested 2, but I think that's too high. 1 also seems too
+        # high. 0 is too low, in that the computer doesn't manage to think
+        # about the direct consequence of its move.
         if self.eval_count == 0:
             exploration = 100  # That is, infinity
         else:
             exploration = math.sqrt(
-                2 *
+                CURIOUSITY *
                 math.log(
                     self.parent.eval_count) /
                 self.eval_count)
@@ -419,8 +435,9 @@ class Node:
         return exploration + exploitation
 
     def add_children(self):
-        '''Adds children to the node'''
+        '''Adds children to the node. Has to calculate moves'''
         # Do nothing if we're in an end game position
+        self.board.calculate_moves()
         if self.board.score3('r') in (0, 1):
             # The 'r' is completely arbitrary
             return

@@ -1,61 +1,65 @@
 import os
 from domination_board import Board
 from time import time
-from domination_computer import Computer12
+from domination_computer import Computer12, Computer13
 all_moves = []
 b = Board()
 tie_list = ['four', 'totally', 'different', 'words']
-#version = 0
-# while version < 9 or int(version) != version:
-#    version = input("Version of r:")
-# if version == 9:
-#    thinker_r = Computer9
-# if version == 10:
-#    thinker_r = Computer10
+version = 0
+while version < 12 or int(version) != version:
+    version = int(input("Version of r: "))
+if version == 12:
+    thinker_r = Computer12
+if version == 13:
+    thinker_r = Computer13
 # if version == 11:
 #    thinker_r = Computer11
 # player_r=3
 scoring = 0
 while scoring < 1 or int(scoring) != scoring:
-    scoring = int(input("Scoring of r:"))
+    scoring = int(input("Scoring of r: "))
 thinker_r = Computer12(scoring)
 ordering_r = -1
 depth_r = 0
 maxtime_r = 0
-while depth_r < 1 or int(depth_r) != depth_r:
-    depth_r = int(input("Maximum Depth of r:"))
-print()
 while maxtime_r < 1:
-    maxtime_r = int(input("Maximum Time of r:"))
+    maxtime_r = int(input("Maximum Time of r: "))
 print()
-while ordering_r < 0 or int(ordering_r) != ordering_r or ordering_r >= depth_r:
-    ordering_r = int(input("Ordering (can be zero) of r:"))
-print()
-#version = 0
-# while version < 9 or int(version) != version:
-#    version = input("Version of g:")
-# if version == 9:
-#    thinker_g = Computer9
-# if version == 10:
-#    thinker_g = Computer10
+if version == 12:
+    while depth_r < 1 or int(depth_r) != depth_r:
+        depth_r = int(input("Maximum Depth of r: "))
+    print()
+    while ordering_r < 0 or int(
+            ordering_r) != ordering_r or ordering_r >= depth_r:
+        ordering_r = int(input("Ordering (can be zero) of r: "))
+    print()
+version = 0
+while version < 12 or int(version) != version:
+    version = int(input("Version of g: "))
+if version == 12:
+    thinker_g = Computer12
+if version == 13:
+    thinker_g = Computer13
 # if version == 11:
 #    thinker_g = Computer11
 # player_g=3
 scoring = 0
 while scoring < 1 or int(scoring) != scoring:
-    scoring = int(input("Scoring of g:"))
+    scoring = int(input("Scoring of g: "))
 thinker_g = Computer12(scoring)
 ordering_g = -1
 depth_g = 0
 maxtime_g = 0
-while depth_g < 1 or int(depth_g) != depth_g:
-    depth_g = int(input("Maximum Depth of g:"))
-print()
+if version == 12:
+    while depth_g < 1 or int(depth_g) != depth_g:
+        depth_g = int(input("Maximum Depth of g: "))
+    print()
+    while ordering_g < 0 or int(
+            ordering_g) != ordering_g or ordering_g >= depth_g:
+        ordering_g = int(input("Ordering (can be zero) of g: "))
+    print()
 while maxtime_g < 1:
-    maxtime_g = int(input("Maximum Time of g:"))
-print()
-while ordering_g < 0 or int(ordering_g) != ordering_g or ordering_g >= depth_g:
-    ordering_g = int(input("Ordering (can be zero) of g:"))
+    maxtime_g = int(input("Maximum Time of g: "))
 print()
 # while player!="g" and player!="r":
 ##    player=raw_input("Do you want to be r or g? R moves first.")

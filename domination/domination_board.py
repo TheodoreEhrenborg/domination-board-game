@@ -261,6 +261,7 @@ class Board:
             return self
 
     def clean(self, firstlist):
+        '''Removes duplicate moves from consideration'''
         list = firstlist[:]
         newlist = []
         for entry in list:
@@ -304,7 +305,8 @@ class Board:
             float(len(self.moves[side])) / float(len(self.moves[self.opponent(side)])))
 
     def score3(self, side):
-        '''Returns dividing static evaluator in probability form'''
+        '''Returns dividing static evaluator in probability form.
+        It is 1 or 0 in a end_game position'''
         if not self.moves[side]:
             return 0
         if not self.moves[self.opponent(side)]:

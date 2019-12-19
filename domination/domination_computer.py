@@ -1,8 +1,6 @@
-# uses user defined ordering at the first level only, direct descendant of
-# 6 and shares some features with 8
-
-
 def Computer9(c, depth=2, time_limit=60, ordering=0):
+    '''uses user defined ordering at the first level only, direct
+descendant of 6 and shares some features with 8'''
     from time import time
     end_time = time() + time_limit
     best_list = []
@@ -37,7 +35,7 @@ def Computer9(c, depth=2, time_limit=60, ordering=0):
             if alpha >= beta:
                 best_list = [bestmove, alpha, a_depth]
                 break
-##            print [possmove,r]
+# print [possmove,r]
         if time() < end_time:
             best_list = [bestmove, bestscore, a_depth]
         else:
@@ -51,7 +49,7 @@ def rank9(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
         return board.score2(board.side)
     bestscore = -1000
 # v=0
-##    import domination_board
+# import domination_board
 # z=domination_board.Board()
 # z.move("b2b3")
     moves_to_do = board.clean(board.moves[board.side])
@@ -68,7 +66,7 @@ def rank9(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
 # if possmove=="g7f7":
         r = -rank9(temp, depth - 1, -beta, -alpha, end_time)
 # if testing:
-##            print(possmove, r, bestscore, alpha, beta)
+# print(possmove, r, bestscore, alpha, beta)
 # if possmove=="g7f7" and z.moves==board.moves:
 # print("r:",r,depth,beta,alpha)
 # v=2
@@ -78,7 +76,7 @@ def rank9(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
 # print(possmove)
         if time() > end_time:
             # if testing:
-            ##                print("Look here")
+            # print("Look here")
             return 3
         if r > bestscore:
             bestscore = r
@@ -86,13 +84,13 @@ def rank9(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
             alpha = bestscore
         if alpha >= beta:
             # if testing:
-            ##                print("Over here")
+            # print("Over here")
             return alpha
     return bestscore
 
 
-# Only uses searches of even depth, although that idea was a mistake
 def Computer10(c, depth=2, time_limit=60, ordering=0):
+    '''Only uses searches of even depth, although that idea was a mistake'''
     from time import time
     end_time = time() + time_limit
     best_list = []
@@ -137,7 +135,7 @@ def Computer10(c, depth=2, time_limit=60, ordering=0):
 # stopped=True
 # print(best_list)
 # break
-##            print [possmove,r]
+# print [possmove,r]
         if time() < end_time and not(stopped):
             best_list = [bestmove, bestscore, a_depth]
         else:
@@ -145,9 +143,9 @@ def Computer10(c, depth=2, time_limit=60, ordering=0):
     return best_list
 
 
-# Descendent of 9, will not consider playing a reserve piece anywhere but
-# on an opponent's tower
 def Computer11(c, depth=2, time_limit=60, ordering=0):
+    '''Descendent of 9, will not consider playing a reserve piece
+ anywhere but on an opponent's tower'''
     from time import time
     end_time = time() + time_limit
     best_list = []
@@ -183,7 +181,7 @@ def Computer11(c, depth=2, time_limit=60, ordering=0):
             if alpha >= beta:
                 best_list = [bestmove, alpha, a_depth]
                 break
-##            print [possmove,r]
+# print [possmove,r]
         if time() < end_time:
             best_list = [bestmove, bestscore, a_depth]
         else:
@@ -197,7 +195,7 @@ def rank11(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
         return board.score2(board.side)
     bestscore = -1000
 # v=0
-##    import domination_board
+# import domination_board
 # z=domination_board.Board()
 # z.move("b2b3")
     board.find_good_moves_for_the_side_to_play()
@@ -215,7 +213,7 @@ def rank11(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
 # if possmove=="g7f7":
         r = -rank11(temp, depth - 1, -beta, -alpha, end_time)
 # if testing:
-##            print(possmove, r, bestscore, alpha, beta)
+# print(possmove, r, bestscore, alpha, beta)
 # if possmove=="g7f7" and z.moves==board.moves:
 # print("r:",r,depth,beta,alpha)
 # v=2
@@ -225,7 +223,7 @@ def rank11(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
 # print(possmove)
         if time() > end_time:
             # if testing:
-            ##                print("Look here")
+            # print("Look here")
             return 3
         if r > bestscore:
             bestscore = r
@@ -233,12 +231,15 @@ def rank11(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
             alpha = bestscore
         if alpha >= beta:
             # if testing:
-            ##                print("Over here")
+            # print("Over here")
             return alpha
     return bestscore
 
 
-class Computer12:  # Descendent of 11, hashtable (just kidding), an object
+class Computer12:
+    '''Descendent of 11, hashtable (just kidding), an object.
+    Thus it does not play reserve pieces on empty squares'''
+
     def __init__(self, scoring=3):
         self.scoring = scoring
 
@@ -308,3 +309,123 @@ class Computer12:  # Descendent of 11, hashtable (just kidding), an object
             if alpha >= beta:
                 return alpha
         return bestscore
+
+
+class Computer13:
+    '''Uses MCTS to choose a move. Does not ban
+    playing reserve pieces on empty squares'''
+
+    def __init__(self, scoring=3):
+        self.scoring = scoring
+
+    def go(self, c, time_limit=60):
+        t = Tree(c, time_limit, self.scoring)
+        # Expect make_choice to return (bestmove, eval_average of that move,
+        # eval_count of that move)
+        return t.make_choice_visits()
+
+
+class Tree:
+    '''The tree of moves, which explands using MCTS'''
+
+    def __init__(self, start_board, time_limit, scoring):
+        # Why are time_limit and self.scoring defined at different times?
+        from time import time
+        end_time = time() + time_limit
+        self.scoring = scoring
+        self.ur_node = Node(start_board, None)
+        self.ur_side = start_board.side
+        while time() < end_time:
+            current_node = self.ur_node
+            while not current_node.is_leaf():
+                # Choose a child node using the magic formula
+                best_child = current_node.children[0]
+                for child in current_node.children:
+                    if child.magic_formula(
+                            self.ur_side) > best_child.magic_formula(self.ur_side):
+                        best_child = child
+            # Now add children to the leaf node
+            current_node.add_children()
+            # Now run the static evaluator on the leaf,
+            # and go up the tree updating the nodes
+            static_score = current_node.board.score3(self.ur_side)
+            if static_score not in (0, 1):
+                static_score = current_node.board.score(
+                    self.ur_side, self.scoring)
+            while current_node is not None:
+                current_node.eval_count += 1
+                current_node.eval_sum += static_score
+                current_node.eval_average = current_node.eval_sum / current_node.eval_count
+                current_node = current_node.parent
+            # And we should end up at the None node above the ur_node
+
+    def make_choice_score(self):
+        '''Choose a child node using the eval_average'''
+        best_child = self.ur_node.children[0]
+        for child in self.ur_node.children:
+            if child.eval_average > best_child.eval_average:
+                # Since the ur_node uses the ur_side to maximize, we
+                # can compare the eval_averages, which were calculated
+                # based on the ur_side
+                best_child = child
+        return (best_child.last_move, best_child.eval_average,
+                best_child.eval_count)
+
+    def make_choice_visits(self):
+        '''Choose a child node depending on which one was visited the most'''
+        best_child = self.ur_node.children[0]
+        for child in self.ur_node.children:
+            if child.eval_count > best_child.eval_count:
+                best_child = child
+        return (best_child.last_move, best_child.eval_average,
+                best_child.eval_count)
+
+
+class Node:
+    '''A node in this tree'''
+
+    def __init__(self, board, parent, last_move=None):
+        self.board = board
+        self.parent = parent
+        self.eval_sum = 0
+        self.eval_count = 0
+        self.eval_average = 0
+        self.children = []
+        self.last_move = last_move
+
+    def is_leaf(self):
+        return not self.children
+
+    def magic_formula(self, ur_side):
+        '''Returns the sum of this node's exploration and exploitation
+        values. It takes into account which side we are currently
+        on. I got this from the MCTS Wikipedia page.'''
+        import math
+        if self.eval_count == 0:
+            exploration = 100  # That is, infinity
+        else:
+            exploration = math.sqrt(
+                2 *
+                math.log(
+                    self.parent.eval_count) /
+                self.eval_count)
+        if self.board.side != ur_side:
+            # Then we're OK because the parent, i.e. the place from
+            # which we're choosing, agrees with the ur_side and
+            # thus agrees with the scores we've averaged
+            exploitation = self.eval_average
+        else:
+            exploitation = 1 - self.eval_average
+        return exploration + exploitation
+
+    def add_children(self):
+        '''Adds children to the node'''
+        # Do nothing if we're in an end game position
+        if self.board.score3('r') in (0, 1):
+            # The 'r' is completely arbitrary
+            return
+        moves = self.board.clean(self.board.moves[self.board.side])
+        for m in moves:
+            next_board = self.board.copy()
+            next_board.move(m)
+            self.children.append(Node(next_board, self, m))

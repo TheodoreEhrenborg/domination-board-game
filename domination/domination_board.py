@@ -70,7 +70,7 @@ class Board:
         side="r",
     ):
         self.reserve = currentboard[0]
-        self.mainboard = currentboard[1:]
+        self.main_board = currentboard[1:]
         self.moves = {"g": self.findmoves("g"), "r": self.findmoves("r")}
         self.side = side
         self.good_moves = None
@@ -95,10 +95,10 @@ class Board:
         new = ""
         for x in range(0, len(skeleton)):
             a = x % 18
-            b = (x - a) / 18
+            b = int((x - a) / 18)
             if a == 0:
                 if b % 6 == 2:
-                    new += str((b - 2) / 6 + 1)
+                    new += str(int((b - 2) / 6) + 1)
                 else:
                     new += " "
             new += skeleton[x]
@@ -145,25 +145,25 @@ class Board:
             g_str += " "
         image = self.switch(image, 933, g_str, 2)
         image = self.switch(image, 914, r_str, 2)
-        main_board = self.mainboard[:]
+        main_board = self.main_board[:]
         for i in range(0, 64):
             if main_board[i] != "x":
                 while len(main_board[i]) < 5:
                     main_board[i] += " "
                 a = i % 8
-                b = (i - a) / 8
+                b = int((i - a) / 8)
                 place = 19 * 6 * (b + 1) + 2 * a + 1 + 1
                 for j in range(0, 5):
                     image = self.switch(
                         image, place - 19 * j, main_board[i][j])
-        print image
+        print(image)
 
     def switch(self, string, place, char, length=1):
         return string[:place] + char + string[place + length:]
 
     def num_to_coord(self, num):  # Lower left is [1,1]
         a = num % 19
-        b = (num - a) / 19
+        b = int((num - a) / 19)
         y = 50 - b
         x = a + 1
         return [x, y]
@@ -178,23 +178,23 @@ class Board:
         if side in self.reserve:
             for j in range(0, self.reserve.count(side)):
                 for i in range(0, 64):
-                    if self.mainboard[i] != "x":
+                    if self.main_board[i] != "x":
                         movelist.append("rr" + self.numtostr(i))
         for i in range(0, 64):
-            if self.mainboard[i] != "x" and self.mainboard[i] != "" and self.mainboard[i][-1:] == side:
+            if self.main_board[i] != "x" and self.main_board[i] != "" and self.main_board[i][-1:] == side:
                 length = 0
-                while length < len(self.mainboard[i]):
+                while length < len(self.main_board[i]):
                     length += 1
                     if i + length in range(0, 64) and (i % 8) + length <= 7:
-                        if self.mainboard[i + length] != "x":
+                        if self.main_board[i + length] != "x":
                             movelist.append(self.numtostr(
                                 i) + self.numtostr(i + length))
                     if i - length in range(0, 64) and (i % 8) - length >= 0:
-                        if self.mainboard[i - length] != "x":
+                        if self.main_board[i - length] != "x":
                             movelist.append(self.numtostr(
                                 i) + self.numtostr(i - length))
                     if i + 8 * length in range(0, 64):
-                        if self.mainboard[i + 8 * length] != "x":
+                        if self.main_board[i + 8 * length] != "x":
                             movelist.append(
                                 self.numtostr(i) +
                                 self.numtostr(
@@ -202,7 +202,7 @@ class Board:
                                     8 *
                                     length))
                     if i - 8 * length in range(0, 64):
-                        if self.mainboard[i - 8 * length] != "x":
+                        if self.main_board[i - 8 * length] != "x":
                             movelist.append(
                                 self.numtostr(i) +
                                 self.numtostr(
@@ -213,7 +213,7 @@ class Board:
 
     def numtostr(self, num):
         a = num % 8
-        b = (num - a) / 8
+        b = int((num - a) / 8)
         stra = "abcdefgh"
         strb = "12345678"
         return stra[a:a + 1] + strb[b:b + 1]
@@ -246,13 +246,13 @@ class Board:
                 if k < 0:
                     k = -k
                 if k >= 8:
-                    k = k / 8
-                pieces = self.mainboard[start][-k:]
-                self.mainboard[start] = self.mainboard[start][:-k]
-            self.mainboard[end] += pieces
-            while len(self.mainboard[end]) > 5:
-                piece = self.mainboard[end][0:1]
-                self.mainboard[end] = self.mainboard[end][1:]
+                    k = int(k / 8)
+                pieces = self.main_board[start][-k:]
+                self.main_board[start] = self.main_board[start][:-k]
+            self.main_board[end] += pieces
+            while len(self.main_board[end]) > 5:
+                piece = self.main_board[end][0:1]
+                self.main_board[end] = self.main_board[end][1:]
                 if piece == self.side:
                     self.reserve += piece
             self.side = self.opponent(self.side)
@@ -269,9 +269,21 @@ class Board:
         return newlist
 
     def copy(self):
-        return Board([self.reserve] + self.mainboard, self.side)
+        return Board([self.reserve] + self.main_board, self.side)
 
-    def score(self, side):
+    def score(self, side, which=5):
+        if which == 1:
+            return self.score1(side)
+        elif which == 2:
+            return self.score2(side)
+        elif which == 3:
+            return self.score3(side)
+        elif which == 4:
+            return self.score4(side)
+        elif which == 5:
+            return self.score5(side)
+
+    def score1(self, side):
         if len(self.moves[side]) == 0:
             return 0
         if len(self.moves[self.opponent(side)]) == 0:
@@ -280,21 +292,47 @@ class Board:
             float(len(self.moves[self.opponent(side)]))
 
     def score2(self, side):
+        '''Returns dividing static evaluator in decibel form'''
         import math
-        if len(self.moves[side]) == 0:
+        if not self.moves[side]:
             return -1000
-        if len(self.moves[self.opponent(side)]) == 0:
+        if not self.moves[self.opponent(side)]:
             return 1000
         # Taking the log a million times takes half a second. This part of the
         # program is fast enough.
         return math.log(
             float(len(self.moves[side])) / float(len(self.moves[self.opponent(side)])))
 
+    def score3(self, side):
+        '''Returns dividing static evaluator in probability form'''
+        if not self.moves[side]:
+            return 0
+        if not self.moves[self.opponent(side)]:
+            return 1
+        odds = float(len(self.moves[side])) / \
+            float(len(self.moves[self.opponent(side)]))
+        return 1 - 1 / (1 + odds)
+
+    def score4(self, side):
+        '''Returns ratio of number of pieces, in probability form'''
+        r_total = self.reserve.count('r')
+        g_total = self.reserve.count('g')
+        for x in self.main_board:
+            r_total += x.count('r')
+            g_total += x.count('g')
+        if side == 'r':
+            return 1 - 1 / (1 + r_total / g_total)
+        return 1 - 1 / (1 + g_total / r_total)
+
+    def score5(self, side):
+        '''Averages score3 and score4'''
+        return (self.score3(side) + self.score4(side)) / 2
+
     def find_good_moves_for_the_side_to_play(self):
         move_list = self.clean(self.moves[self.side])
         towers = False
         for i in range(0, 64):
-            if self.mainboard[i] != "x" and self.mainboard[i] != "":
+            if self.main_board[i] != "x" and self.main_board[i] != "":
                 towers = True
         if not towers:
             self.good_moves = move_list
@@ -304,7 +342,7 @@ class Board:
         for move in move_list:
             # If the move is a reserve move that does not capture an enemy
             # piece, the move is a bad move and should not be considered.
-            if not(move[0:2] == 'rr' and self.mainboard[self.strtonum(
+            if not(move[0:2] == 'rr' and self.main_board[self.strtonum(
                     move[2:4])][-1:] != self.opponent(self.side)):
                 better_moves.append(move)
         self.good_moves = better_moves

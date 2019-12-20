@@ -332,11 +332,12 @@ class Computer13:
 class Tree:
     '''The tree of moves, which explands using MCTS'''
 
-    def __init__(self, start_board, time_limit, scoring):
+    def __init__(self, start_board, time_limit, scoring, curiosity=0):
         # Why are time_limit and self.scoring defined at different times?
         from time import time
         end_time = time() + time_limit
         self.scoring = scoring
+        self.curiosity = curiosity
         start_board = start_board.copy()
         start_board.optimize = True
         self.ur_node = Node(start_board, None)
@@ -350,7 +351,7 @@ class Tree:
                 best_child = current_node.children[0]
                 for child in current_node.children:
                     if child.magic_formula(
-                            self.ur_side) > best_child.magic_formula(self.ur_side):
+                            self.ur_side, self.curiosity) > best_child.magic_formula(self.ur_side, self.curiosity):
                         best_child = child
                 current_node = best_child
             # Now add children to the leaf node
@@ -408,20 +409,22 @@ class Node:
     def is_leaf(self):
         return not self.children
 
-    def magic_formula(self, ur_side):
+    def magic_formula(self, ur_side, curiosity):
         '''Returns the sum of this node's exploration and exploitation
         values. It takes into account which side we are currently
         on. I got this from the MCTS Wikipedia page.'''
         import math
-        CURIOUSITY = 0.5
+        #CURIOSITY = 0.1
         # Wikipedia suggested 2, but I think that's too high. 1 also seems too
-        # high. 0 is too low, in that the computer doesn't manage to think
-        # about the direct consequence of its move.
+        # high. 0 is maybe too low, in that the computer doesn't seem to manage to think
+        # about the direct consequence of its move. 0.5 is too high, for the same
+        # reason as the previous sentence, but with more confidence. 0.1 is too
+        # high.
         if self.eval_count == 0:
             exploration = 100  # That is, infinity
         else:
             exploration = math.sqrt(
-                CURIOUSITY *
+                curiosity *
                 math.log(
                     self.parent.eval_count) /
                 self.eval_count)

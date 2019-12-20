@@ -1,0 +1,22 @@
+19 Dec 19
+r: Minimax 3 ply, scoring 3, 0 ordering, 60 seconds
+g: MCTS, scoring 3, 60 seconds
+['b2b3', 'b7b6', 'e5e6', 'c5d5', 'b4b5', 'c7c6', 'c2c3', 'd6e6', 'g2g3', 'f7f6', 'f2f3', 'f5f4', 'g6f6', 'f4f6', 'd3d2', 'e2d2', 'g3g5', 'e4e3', 'f3e3', 'd5d7', 'e7e6', 'd4c4', 'e6e3', 'c4c3', 'e3c3', 'f3e3', 'rre3', 'd2d5', 'g5g2', 'b6d6', 'c3h3', 'd6f6', 'h3e3', 'rre3', 'rrf6', 'e6f6', 'rre3', 'rre3', 'h3f3', 'c6c4', 'f3e3', 'f3e3', 'g2e2', 'e3e5', 'e2c2', 'c4c2', 'c4c3', 'e3c3', 'b3c3', 'd5b5', 'c3e3', 'b3c3', 'e3c3', 'c2c5', 'rrc5', 'e5c5', 'rrc5', 'd5c5', 'rrc5', 'b5c5', 'b5c5', 'f6f3', 'c3c8', 'f3c3', 'c8c3', 'e3d3', 'c3c8', 'd7d5', 'b5d5', 'g2f2', 'c8c5', 'rrc5', 'c8c6', 'c5f5', 'f6f5', 'f6f5', 'rrf5', 'c5e5', 'f5a5', 'e5c5', 'c6c5', 'd3d4', 'd5a5', 'd4d5', 'a5d5', 'c2d2', 'c5e5', 'g7f7', 'g4f4', 'f7f6', 'f4g4', 'f2f3', 'g4g5', 'd2e2', 'g5g4', 'e2d2']
+Tie after 96 moves, but r dominates most of board and has 5 reserves to g's 2
+
+19 Dec 19
+r: Minimax 3 ply, scoring 3, 0 ordering, 120 seconds (but only needed 60 at most)
+g: MCTS, scoring 3, 120 seconds
+g has won after 108 moves!
+['b2b3', 'b7b6', 'e5e6', 'c5d5', 'b4b5', 'c7c6', 'c2c3', 'd6e6', 'g2g3', 'f5f6', 'g6f6', 'f7f6', 'f4f3', 'b6b5', 'g3g5', 'b5b3', 'b6b5', 'd5b5', 'f2e2', 'd2e2', 'e3e2', 'b3f3', 'e2e6', 'c6e6', 'e7e6', 'f6f3', 'e6e4', 'd4e4', 'e6e3', 'f3f6', 'e3f3', 'f6f3', 'd3e3', 'e4c4', 'e3f3', 'e4e3', 'c3c4', 'e3f3', 'c4g4', 'e4e3', 'g5g4', 'g5g4', 'f6g6', 'g4d4', 'g6g5', 'd4d7', 'rrf3', 'e3f3', 'g5e5', 'f3d3', 'e5c5', 'd3e3', 'd3e3', 'f3e3', 'c5a5', 'b5e5', 'a5c5', 'e5e3', 'e5e4', 'g4e4', 'c5c7', 'e3c3', 'c7d7', 'c7d7', 'rrd7', 'c3f3', 'd7d5', 'f3d3', 'd5b5', 'f3f5', 'd7d4', 'g7g6', 'd4d6', 'd3b3', 'd4e4', 'b3b5', 'e4g4', 'e3c3', 'e4e3', 'f3e3', 'd6b6', 'b5b2', 'g4g6', 'b5b6', 'e4f4', 'b6e6', 'g6d6', 'e6e3', 'f4e4', 'c3e3', 'e4e3', 'rre3', 'd6a6', 'e3c3', 'a6d6', 'b2e2', 'rre2', 'rrd6', 'e2c2', 'd6f6', 'e2e3', 'rre3', 'c2c3', 'c2c3', 'rre3', 'rre3', 'e2f2', 'rrf2']
+Probably the game could have been shorter by roughly 10 moves if g had
+used reserve pieces more aggressively.
+
+On move 10, the 60 seconds version's prefered move turned out to have
+a lower score. The 60 second version switched to the other (better?)
+move, but only managed 4000 runs on the better move. The 120 second
+version continued using the better move and used it more than the
+previous good move.
+
+
+Once there's a reserve piece in play, minimax 4 ply takes at least 10 minutes.

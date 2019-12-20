@@ -23,6 +23,24 @@ paper and the Wikipedia page. This will be a more major revision.
 And I can try making the static evaluator into a neural network, which will
 be an even more major change.
 
+
+OK, so I have a minimax and an MCTS. Is ordering at all useful to make
+minimax faster? Using the optimize attribute of Board, I've made MCTS
+20 times faster, and I bet minimax can become faster once I implement
+that. MCTS has performed best so far when its curiosity is 0, not 0.1,
+0.5, 1, or 2. It seems I need MCTS to have 20 seconds to beat 2-ply
+(plays in a second), and 120 seconds to beat 3-ply (plays in roughly
+10 seconds). But I haven't tested MCTS against 4-ply because 4-ply can
+takes at least 10 minutes per move. I need to know what the best
+curiosity value is. Then I need to start working on a static evaluator
+function. Just counting red and green pieces (score4) is not a good
+plan, as red can win even though there are lots of captured green
+pieces on the board. After talking with Thomas, I'm considering adding
+a function that counts the number of towers controlled by each side,
+and a function that counts just reserve pieces. And then I would have
+to do the weights on those scoring systems.
+
+Should I make the programs print their predictions of the most likely moves?
         
         
             

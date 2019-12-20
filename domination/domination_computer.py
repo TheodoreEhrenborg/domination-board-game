@@ -301,7 +301,7 @@ class Computer12:
         board.find_good_moves_for_the_side_to_play()
         moves_to_do = board.good_moves
         for possmove in moves_to_do:
-            temp = board.copy()
+            temp = board.copy()  # I bet I can optimize this.
             temp.move(possmove)
             r = 1 - self.rank(temp, depth - 1, 1 - beta, 1 - alpha, end_time)
             if time() > end_time:
@@ -322,8 +322,8 @@ class Computer13:
     def __init__(self, scoring=3):
         self.scoring = scoring
 
-    def go(self, c, time_limit=60):
-        t = Tree(c, time_limit, self.scoring)
+    def go(self, c, time_limit=60, curiosity=0):
+        t = Tree(c, time_limit, self.scoring, curiosity)
         # Expect make_choice to return (bestmove, eval_average of that move,
         # eval_count of that move)
         return t.make_choice_visits()
@@ -384,6 +384,7 @@ class Tree:
 
     def make_choice_visits(self):
         '''Choose a child node depending on which one was visited the most'''
+        self.print_path()
         best_child = self.ur_node.children[0]
         for child in self.ur_node.children:
             if child.eval_count > best_child.eval_count:
@@ -392,6 +393,19 @@ class Tree:
                   child.eval_count)
         return (best_child.last_move, best_child.eval_average,
                 best_child.eval_count)
+
+    def print_path(self):
+        '''Print out the most likely way the game will go.
+        Uses visits to judge this.'''
+        current_node = self.ur_node
+        while not current_node.is_leaf():
+            # Choose the child node with the most visits
+            best_child = current_node.children[0]
+            for child in current_node.children:
+                if child.eval_count > best_child.eval_count:
+                    best_child = child
+            current_node = best_child
+            print(current_node.last_move)
 
 
 class Node:
@@ -435,6 +449,7 @@ class Node:
             exploitation = self.eval_average
         else:
             exploitation = 1 - self.eval_average
+#        print(exploration, exploitation)
         return exploration + exploitation
 
     def add_children(self):

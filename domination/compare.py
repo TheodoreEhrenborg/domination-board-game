@@ -32,6 +32,9 @@ if version_r == 12:
             ordering_r) != ordering_r or (ordering_r >= depth_r and depth_r):
         ordering_r = int(input("Ordering (can be zero) of r: "))
     print()
+else:
+    curiosity_r = float(input("Curiosity of r: "))
+    print()
 version_g = 0
 while version_g < 12 or int(version_g) != version_g:
     version_g = int(input("Version of g: "))
@@ -56,6 +59,9 @@ if version_g == 12:
             ordering_g) != ordering_g or (ordering_g >= depth_g and depth_g):
         ordering_g = int(input("Ordering (can be zero) of g: "))
     print()
+else:
+    curiosity_g = float(input("Curiosity of g: "))
+    print()
 # while player!="g" and player!="r":
 # player=raw_input("Do you want to be r or g? R moves first.")
 # player="r"
@@ -70,7 +76,7 @@ while len(b.moves[b.side]) > 0 and is_tie == False:
         if version_r == 12:
             l = thinker_r.go(b, depth_r, maxtime_r, ordering_r)
         else:
-            l = thinker_r.go(b, maxtime_r)
+            l = thinker_r.go(b, maxtime_r, curiosity_r)
         move = l[0]
         all_moves.append(move)
         moves_so_far += 1
@@ -82,7 +88,7 @@ while len(b.moves[b.side]) > 0 and is_tie == False:
         if version_g == 12:
             l = thinker_g.go(b, depth_g, maxtime_g, ordering_g)
         else:
-            l = thinker_g.go(b, maxtime_g)
+            l = thinker_g.go(b, maxtime_g, curiosity_g)
         move = l[0]
         all_moves.append(move)
         moves_so_far += 1

@@ -22,7 +22,7 @@ paper and the Wikipedia page. This will be a more major revision.
 
 And I can try making the static evaluator into a neural network, which will
 be an even more major change.
-
+---------------------------------
 
 OK, so I have a minimax and an MCTS. Is ordering at all useful to make
 minimax faster? Using the optimize attribute of Board, I've made MCTS
@@ -42,7 +42,7 @@ to do the weights on those scoring systems.
 
 Should I make the programs print their predictions of the most likely moves?
         
-        
+ 
             
 
 

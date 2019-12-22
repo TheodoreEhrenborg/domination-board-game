@@ -1,7 +1,7 @@
 import os
 from domination_board import Board
 from time import time
-from domination_computer import Computer12, Computer13
+from domination_computer import Computer12, Computer13, Computer14
 all_moves = []
 b = Board()
 tie_list = ['four', 'totally', 'different', 'words']
@@ -18,6 +18,8 @@ if version_r == 12:
     thinker_r = Computer12(scoring)
 if version_r == 13:
     thinker_r = Computer13(scoring)
+if version_r == 14:
+    thinker_r = Computer14(scoring)
 ordering_r = -1
 depth_r = -1
 maxtime_r = 0
@@ -45,6 +47,8 @@ if version_g == 12:
     thinker_g = Computer12(scoring)
 if version_g == 13:
     thinker_g = Computer13(scoring)
+if version_g == 14:
+    thinker_g = Computer14(scoring)
 ordering_g = -1
 depth_g = -1
 maxtime_g = 0

@@ -244,7 +244,9 @@ class Computer12:
         self.scoring = scoring
 
     def go(self, c, depth=2, time_limit=60, ordering=0):
-        self.c = c
+        c = c.copy()
+        c.optimize = True
+        c.calculate_moves()
         self.depth = depth
         self.time_limit = time_limit
         self.ordering = ordering
@@ -293,6 +295,7 @@ class Computer12:
     def rank(self, board, depth, alpha=0,
              beta=1, end_time=2000000000):
         from time import time
+        board.calculate_moves()
         if board.score3(board.side) in (0, 1):
             return board.score3(board.side)
         if depth == 0:
@@ -301,7 +304,7 @@ class Computer12:
         board.find_good_moves_for_the_side_to_play()
         moves_to_do = board.good_moves
         for possmove in moves_to_do:
-            temp = board.copy()  # I bet I can optimize this.
+            temp = board.copy()
             temp.move(possmove)
             r = 1 - self.rank(temp, depth - 1, 1 - beta, 1 - alpha, end_time)
             if time() > end_time:
@@ -319,11 +322,12 @@ class Computer13:
     '''Uses MCTS to choose a move. Does not ban
     playing reserve pieces on empty squares'''
 
-    def __init__(self, scoring=3):
+    def __init__(self, scoring=3, quiet=False):
         self.scoring = scoring
+        self.quiet = quiet
 
     def go(self, c, time_limit=60, curiosity=0):
-        t = Tree(c, time_limit, self.scoring, curiosity)
+        t = Tree(c, time_limit, self.scoring, curiosity, self.quiet)
         # Expect make_choice to return (bestmove, eval_average of that move,
         # eval_count of that move)
         return t.make_choice_visits()
@@ -332,11 +336,13 @@ class Computer13:
 class Tree:
     '''The tree of moves, which explands using MCTS'''
 
-    def __init__(self, start_board, time_limit, scoring, curiosity=0):
+    def __init__(self, start_board, time_limit,
+                 scoring, curiosity=0, quiet=False):
         # Why are time_limit and self.scoring defined at different times?
         from time import time
         end_time = time() + time_limit
         self.scoring = scoring
+        self.quiet = quiet
         self.curiosity = curiosity
         start_board = start_board.copy()
         start_board.optimize = True
@@ -384,13 +390,15 @@ class Tree:
 
     def make_choice_visits(self):
         '''Choose a child node depending on which one was visited the most'''
-        self.print_path()
+        if not self.quiet:
+            self.print_path()
         best_child = self.ur_node.children[0]
         for child in self.ur_node.children:
             if child.eval_count > best_child.eval_count:
                 best_child = child
-            print(child.last_move, child.eval_average,
-                  child.eval_count)
+            if not self.quiet:
+                print(child.last_move, child.eval_average,
+                      child.eval_count)
         return (best_child.last_move, best_child.eval_average,
                 best_child.eval_count)
 
@@ -428,7 +436,7 @@ class Node:
         values. It takes into account which side we are currently
         on. I got this from the MCTS Wikipedia page.'''
         import math
-        #CURIOSITY = 0.1
+        # CURIOSITY = 0.1
         # Wikipedia suggested 2, but I think that's too high. 1 also seems too
         # high. 0 is maybe too low, in that the computer doesn't seem to manage to think
         # about the direct consequence of its move. 0.5 is too high, for the same
@@ -464,3 +472,33 @@ class Node:
             next_board = self.board.copy()
             next_board.move(m)
             self.children.append(Node(next_board, self, m))
+
+
+class Computer14:
+    '''Runs MCTS one move ahead, and then makes the
+    choice with the best score. Like a hydra'''
+
+    def __init__(self, scoring=3):
+        self.scoring = scoring
+        self.my_computer13 = Computer13(self.scoring, quiet=True)
+
+    def go(self, c, time_limit=60, curiosity=0):
+        c = c.copy()
+        c.optimize = True
+        c.calculate_moves()
+        moves = c.clean(c.moves[c.side])
+        time_limit = time_limit / len(moves)
+        best_move = moves[0]
+        best_score = -1
+        best_depth = 0  # It's not actually depth because it's MCTS.
+        for move in moves:
+            next = c.copy()
+            next.move(move)
+            next_next_move, move_score, move_count = self.my_computer13.go(
+                next, time_limit, curiosity)
+            if 1 - move_score > best_score:
+                best_move = move
+                best_score = 1 - move_score
+                best_depth = move_count
+            print(move, 1 - move_score, move_count)
+        return (best_move, best_score, best_depth)

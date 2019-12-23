@@ -121,15 +121,44 @@ There has been a tie after 88 moves!
 All moves so far ['b2b3', 'f5f6', 'c2c3', 'g7g6', 'g4g5', 'b7b6', 'g2g3', 'f3f4', 'c6c7', 'c5d5', 'e7f7', 'e6e5', 'b4b5', 'd4c4', 'f2e2', 'd2e2', 'e3e2', 'd5b5', 'b3b5', 'd6d7', 'b5g5', 'e5g5', 'g3g5', 'd7f7', 'e2e4', 'c4e4', 'e2e4', 'f7c7', 'c3e3', 'g6e6', 'e4a4', 'b6d6', 'e4f4', 'e6c6', 'f4f6', 'f7f6', 'a4d4', 'd6f6', 'g5d5', 'f6f8', 'a4b4', 'f8d8', 'g5f5', 'f6d6', 'f5f6', 'd6f6', 'd3c3', 'f6f2', 'c3d3', 'f2c2', 'd3c3', 'c7c2', 'c3c2', 'c6e6', 'c2f2', 'd8d6', 'f2d2', 'd6d5', 'd6e6', 'd5g5', 'd4g4', 'g5e5', 'e3e5', 'g5e5', 'g4d4', 'd5e5', 'e6e3', 'e5d5', 'e3e5', 'd5e5', 'rre5', 'rre5', 'e3f3', 'e5e3', 'c2c4', 'e3c3', 'c4c3', 'e5g5', 'c3e3', 'e5e4', 'f4e4', 'g5g7', 'f2f4', 'g7e7', 'c3d3', 'e7c7', 'd3c3', 'c7e7']
 r dominates the board, but g has 3 reserve pieces to r's 1. g struggled to get an advantage, especially as MCTS won against minimax 2-ply. The number of moves in g's choice was usually about 100. Considering that MCTS sometimes needed a few hundred or even a few thousand moves before deciding, this isn't good enough.
 
-
+22 Dec 2019
 r is minimax with scoring 3, depth 3, 0 ordering, 120 seconds
 g is hydra with scoring 3, 120 seconds, curiosity 0
 There has been a tie after 99 moves!
 All moves so far ['b2b3', 'c3c4', 'e3e4', 'd4e4', 'f4e4', 'c4e4', 'e5e4', 'rre4', 'rre4', 'b7b6', 'd3d4', 'g5g4', 'e4g4', 'c7c6', 'f6f5', 'g7g6', 'g4c4', 'c5d5', 'd4d5', 'c6c4', 'b4c4', 'd2c2', 'c4h4', 'g3g4', 'h4e4', 'rre4', 'rre4', 'e6e7', 'd7e7', 'g4h4', 'e4e2', 'h4f4', 'e7e4', 'f4e4', 'e2e4', 'f3f4', 'e4e1', 'e2e1', 'e4f4', 'e4f4', 'f2f3', 'f4d4', 'f3f4', 'd4b4', 'f5f7', 'e1e4', 'b3b5', 'b6b5', 'd5g5', 'b5e5', 'g5g2', 'e4b4', 'f4h4', 'b4e4', 'f4e4', 'e5e2', 'e4g4', 'g6e6', 'e4e6', 'b5b6', 'e6e3', 'd6d5', 'e3e6', 'c2c4', 'g2g4', 'e2e5', 'g2g4', 'c4c6', 'rrb4', 'c6e6', 'h4e4', 'e6e1', 'e4e1', 'e5e3', 'e1e3', 'e1e3', 'f7f4', 'd5e5', 'rre5', 'e3e2', 'e5e2', 'e3c3', 'e2e6', 'e3e5', 'e6b6', 'e6e7', 'g4b4', 'e5e4', 'e1e2', 'e4f4', 'rrf4', 'rrf4', 'rrf4', 'e7e6', 'f4b4', 'e6d6', 'b4b6', 'd6e6', 'b6b4']
 r has 8 reserve pieces to g's 3. r dominates the board and could have won by spending reserve pieces.
 
+22 Dec 2019
 r is minimax with scoring 3, depth 4, 0 ordering, 600 seconds
 g is minimax with scoring 3, depth 3, 0 ordering, 600 seconds
 r has won after 53 moves!
 All moves so far ['b2b3', 'e2e3', 'c2d2', 'c3d3', 'c4d4', 'e4d4', 'd5d4', 'f3f4', 'g4f4', 'b5b4', 'd4b4', 'b7b6', 'd4f4', 'e3e5', 'f6f5', 'c5c6', 'b4f4', 'g5f5', 'b3d3', 'f5d5', 'e7f7', 'd5d3', 'rrd3', 'g7f7', 'f4f7', 'e5e3', 'd3a3', 'e3e5', 'f4f2', 'g3f3', 'g2f2', 'd6d7', 'f7f2', 'f5f4', 'd3f3', 'f4f3', 'rrf3', 'b6d6', 'f3a3', 'c6c4', 'rrc4', 'd6f6', 'g6f6', 'd7d5', 'f6f3', 'd5f5', 'f3f5', 'e6f6', 'f2f6', 'e5h5', 'rrh5', 'c7d7', 'rrd7']
 r never let g get any reserve pieces. At one point r had 6 reserve pieces.
+
+22 Dec 2019
+r is minimax with scoring 3, depth 2, 0 ordering, 20 seconds
+g is MCTS with scoring 3, 20 seconds, -0.001 curiosity
+g has won after 48 moves!
+All moves so far ['b2b3', 'b7b6', 'c2c3', 'd6c6', 'g2g3', 'g7g6', 'f2f3', 'f5f6', 'g4g5', 'e4f4', 'd7c7', 'c5c4', 'b4b5', 'e6e7', 'd3d2', 'e2d2', 'c7c5', 'd2f2', 'd5d4', 'f4d4', 'g3e3', 'f2f4', 'f3f4', 'f3f4', 'c3c4', 'c3c4', 'c5c6', 'c4c6', 'b3d3', 'd2d3', 'e3d3', 'c4c6', 'd3f3', 'c5b5', 'f3f5', 'e7e5', 'd3f3', 'e5b5', 'g5g6', 'c6g6', 'f5d5', 'b5g5', 'd5f5', 'rrf5', 'c6b6', 'g6b6', 'f3g3', 'rrg3']
+A faster win than with 0 curiosity
+
+22 Dec 2019
+r is MCTS with 0 curiosity, scoring 3, 20 seconds
+g is MCTS with -0.001 curiosity, scoring 3, 20 seconds
+There has been a tie after 101 moves!
+All moves so far ['b2b3', 'b7b6', 'c4c3', 'c5c6', 'g2g3', 'g7g6', 'e3f3', 'f5f6', 'b4b5', 'c7d7', 'g4g5', 'e4f4', 'd5d4', 'f7e7', 'd3d2', 'e7e5', 'f2e2', 'e5e2', 'f3f4', 'e2e6', 'f4f6', 'd6e6', 'f6e6', 'g6e6', 'b5b6', 'b5b6', 'f4f3', 'c6e6', 'b3d3', 'b6e6', 'g3e3', 'e6b6', 'd4f4', 'e2e3', 'c3e3', 'b6f6', 'f4f6', 'rrf6', 'e3e6', 'f6f4', 'e6e2', 'f6f7', 'e6f6', 'f7f6', 'e2e6', 'f6d6', 'g5e5', 'f6e6', 'f3f4', 'd6e6', 'd6e6', 'f3f4', 'e6b6', 'f4f6', 'c2c3', 'd7f7', 'd3d5', 'f7d7', 'd5d7', 'f6f3', 'c3c4', 'f3f6', 'd7d3', 'f6c6', 'e6c6', 'rrb6', 'c6c3', 'b6e6', 'c6e6', 'b6b5', 'e6d6', 'b5b4', 'c4b4', 'f4f6', 'e6e4', 'f6f4', 'e4c4', 'f4f6', 'b4d4', 'f6h6', 'd3d6', 'h6f6', 'd4d6', 'f6d6', 'e6d6', 'e6d6', 'rrd6', 'rrd6', 'd2f2', 'd6f6', 'd3d2', 'd6d4', 'd2e2', 'd4f4', 'f2d2', 'd6c6', 'c3c6', 'f6d6', 'c6g6', 'd6f6', 'g6c6']
+g has 7 reserves to r's 4, but r has spread its pieces in small towers around the board, which it dominates.
+
+22 Dec 2019
+r is minimax with scoring 3, depth 3, 0 ordering, 20 seconds
+g is MCTS with scoring 3, 20 seconds, -0.001 curiosity
+There has been a tie after 82 moves!
+All moves so far ['b2b3', 'b7b6', 'e5e6', 'c5d5', 'b4b5', 'g7g6', 'c6b6', 'd6e6', 'f6e6', 'c3b3', 'e6g6', 'b3b5', 'e6g6', 'g5g6', 'b6b3', 'b5b3', 'b5b3', 'd4c4', 'g4g3', 'f3f4', 'g2g3', 'g6g3', 'b3g3', 'e2f2', 'c2d2', 'f2d2', 'd3d2', 'rrd2', 'rrd2', 'e4e3', 'e7d7', 'e3g3', 'd7d5', 'g3d3', 'd5d2', 'd3d2', 'd3d2', 'g3g4', 'd2d4', 'f4d4', 'd2d4', 'd2d3', 'd5d4', 'd3d4', 'd3d4', 'g4g5', 'd4d6', 'c4c6', 'g6e6', 'c6e6', 'd4e4', 'e6h6', 'd4d5', 'e6e7', 'd4d5', 'h6e6', 'e4e5', 'f5e5', 'd5e5', 'g5f5', 'e5e7', 'e6e3', 'e7e4', 'f5g5', 'e4e3', 'e4e3', 'e5e4', 'e3c3', 'e4e3', 'e4e3', 'd6e6', 'e3e1', 'd5d6', 'g3f3', 'd6f6', 'c7c6', 'f6d6', 'c6c5', 'd6f6', 'c5d5', 'f6d6', 'd5c5']
+r has 9 reserves to g's 4. g has a majority on the board.
+
+22 Dec 2019
+r is minimax with scoring 3, depth 3, 0 ordering, 20 seconds
+g is MCTS with scoring 3, 120 seconds, -0.001 curiosity
+r has won after 55 moves!
+All moves so far ['b2b3', 'b7b6', 'e5e6', 'c5c6', 'c2c3', 'd6e6', 'f6e6', 'c6e6', 'e7e6', 'e4f4', 'c3e3', 'g7g6', 'e6g6', 'd4d3', 'b3d3', 'd2d3', 'e6b6', 'b5b6', 'g6g2', 'd3d6', 'd5d6', 'g3g4', 'd6b6', 'c7c6', 'f2e2', 'g4g2', 'e3e6', 'c6d6', 'd7d6', 'rrd6', 'rrd6', 'f7g7', 'e2g2', 'g7f7', 'd6b6', 'f3g3', 'd6d3', 'f4f2', 'g2g6', 'f7f6', 'e6b6', 'g5g6', 'rrg6', 'f6g6', 'b6g6', 'g3f3', 'g6d6', 'f2d2', 'rrd2', 'f3e3', 'rre3', 'f5g5', 'rrg5', 'rrd3', 'rrd3']
+

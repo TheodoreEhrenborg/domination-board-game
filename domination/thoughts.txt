@@ -42,7 +42,12 @@ to do the weights on those scoring systems.
 
 Should I make the programs print their predictions of the most likely moves?
         
- 
+-----------------------------------
+With score5, it seems that minimax is a significant bit better than
+MCTS, no matter how I try to improve MCTS. I wonder if there is a
+way to make MCTS faster --- maybe avoid storing all the boards
+for each node, but instead use fewer boards? But that would be
+a drastic change, and so would changing the static evaluator.
             
 
 

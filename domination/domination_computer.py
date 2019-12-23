@@ -357,7 +357,7 @@ class Tree:
                 best_child = current_node.children[0]
                 for child in current_node.children:
                     if child.magic_formula(
-                            self.ur_side, self.curiosity) > best_child.magic_formula(self.ur_side, self.curiosity):
+                            self) > best_child.magic_formula(self):
                         best_child = child
                 current_node = best_child
             # Now add children to the leaf node
@@ -431,7 +431,7 @@ class Node:
     def is_leaf(self):
         return not self.children
 
-    def magic_formula(self, ur_side, curiosity):
+    def magic_formula(self, tree):
         '''Returns the sum of this node's exploration and exploitation
         values. It takes into account which side we are currently
         on. I got this from the MCTS Wikipedia page.'''
@@ -446,11 +446,15 @@ class Node:
             exploration = 100  # That is, infinity
         else:
             exploration = math.sqrt(
-                curiosity *
+                abs(tree.curiosity) *
                 math.log(
                     self.parent.eval_count) /
                 self.eval_count)
-        if self.board.side != ur_side:
+            if tree.curiosity < 0 and self.parent != tree.ur_node:
+                exploration = 0
+            # Negative curiosity only has an effect when
+            # we're just below the ur_node.
+        if self.board.side != tree.ur_side:
             # Then we're OK because the parent, i.e. the place from
             # which we're choosing, agrees with the ur_side and
             # thus agrees with the scores we've averaged

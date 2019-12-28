@@ -49,6 +49,30 @@ way to make MCTS faster --- maybe avoid storing all the boards
 for each node, but instead use fewer boards? But that would be
 a drastic change, and so would changing the static evaluator.
             
+---------------------------------------------------
+OK. So Thomas can beat minimax 4-ply. What can I try?
 
+1. Make the two additional static evaluators that I mentioned
+earlier and play with the weights until minimax 4-ply improves.
+This is the easiest step.
 
+2. I can make a new scorer that plays the best 1-ply move
+for, say, 10 plys and then averages out the static evaluation
+scores of those 10 plys. (With win/loss counting extra to make
+a full 10.) This scorer would take more time.
+
+3. Is 5-ply possible? Is it possible on the iMac?
+
+4. Make compare.py able to take initial moves as input.
+And can the computers ask the players for their settings?
+Otherwise compare.py will get bulky.
+
+5. The computer needs a better "killer instinct" at the end of
+games. Maybe I should run both MCTS and minimax, and pick the
+one that has the more optimistic score. (More pessimistic,
+if it's losing?)
+
+6. I want to understand why the theoretical justification for
+exploration isn't working for MCTS in Domination. Is Google's magic
+formula actually magic that will work for me?
 

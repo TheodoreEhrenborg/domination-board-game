@@ -76,3 +76,21 @@ if it's losing?)
 exploration isn't working for MCTS in Domination. Is Google's magic
 formula actually magic that will work for me?
 
+------------------------------------------------------
+
+Maybe I should modify MCTS so at each choice it picks the best-scoring
+move if that move has less than 90% (say) of picks so far. But it should
+always choose untouched nodes first.
+
+And MCTS should get to ignore bad reserve placements like minimax does.
+
+
+Maybe MCTS should focus on the 3 (say) best moves? Hydra tried to look at
+all 50 and failed, but surely just the 3 best moves would give it a little
+curiosity without sacrificing thinking time on each choice.
+
+
+The easiest thing to do right now is create a scoring system that counts
+5-towers. Then average that with the classic scoring, and see whether
+minimax 4-ply gets better.
+

@@ -115,8 +115,10 @@ while len(b.moves[b.side]) > 0 and is_tie == False:
             print("Projected Score by g for r:", 1 - l[1])
             print("Depth of Search :", l[2])
     b.move(move)
-    print("Current score3 of r:", b.score3("r"))
-    print("Current score4 of r:", b.score4("r"))
+    print("Current score3 (classic) of r:", b.score3("r"))
+    print("Current score6 (5-towers) of r:", b.score6("r"))
+    print("Current score8 (2x reserves) of r:", b.score8("r"))
+    print("Current score6 (half reserves) of r:", b.score9("r"))
     print("This move took", time() - start_time, "seconds")
     print('All moves so far', all_moves)
     tie_list[moves_so_far % 4] = move

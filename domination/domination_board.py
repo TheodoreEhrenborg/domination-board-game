@@ -298,6 +298,14 @@ class Board:
             return self.score4(side)
         elif which == 5:
             return self.score5(side)
+        elif which == 6:
+            return self.score6(side)
+        elif which == 7:
+            return self.score7(side)
+        elif which == 8:
+            return self.score8(side)
+        elif which == 9:
+            return self.score9(side)
 
     def score1(self, side):
         if len(self.moves[side]) == 0:
@@ -345,6 +353,61 @@ class Board:
     def score5(self, side):
         '''Averages score3 and score4'''
         return (self.score3(side) + self.score4(side)) / 2
+
+    def score6(self, side):
+        '''Returns ratio of number of 5-towers in
+        probability form'''
+        r_total = 0
+        g_total = 0
+        for x in self.main_board:
+            if len(x) == 5:
+                if x[-1:] == 'r':
+                    r_total += 1
+                else:
+                    g_total += 1
+        if g_total == r_total:
+            result = 0.5
+        elif g_total == 0:
+            result = 1
+        elif r_total == 0:
+            result = 0
+        else:
+            result = 1 - 1 / (1 + r_total / g_total)
+        if side == 'r':
+            return result
+        else:
+            return 1 - result
+
+    def score7(self, side):
+        '''Averages score3 and score6'''
+        return (self.score3(side) + self.score6(side)) / 2
+
+    def score8(self,side):
+        '''Counts reserve pieces twice as much'''
+        spaces = 52
+        if not self.moves[side]:
+            return 0
+        if not self.moves[self.opponent(side)]:
+            return 1
+        side_reserve = self.reserve.count(side)
+        opp_reserve = self.reserve.count(self.opponent(side))
+        odds = float(len(self.moves[side]) + spaces * side_reserve) / \
+            float(len(self.moves[self.opponent(side)]) + spaces * opp_reserve  )
+        return 1 - 1 / (1 + odds)
+
+    def score9(self,side):
+        '''Counts reserve pieces half as much'''
+        spaces = 52
+        if not self.moves[side]:
+            return 0
+        if not self.moves[self.opponent(side)]:
+            return 1
+        side_reserve = self.reserve.count(side)
+        opp_reserve = self.reserve.count(self.opponent(side))
+        odds = float(len(self.moves[side]) - 0.5 * spaces * side_reserve) / \
+            float(len(self.moves[self.opponent(side)]) - 0.5 * spaces * opp_reserve  )
+        return 1 - 1 / (1 + odds)        
+        
 
     def find_good_moves_for_the_side_to_play(self):
         move_list = self.clean(self.moves[self.side])

@@ -327,6 +327,9 @@ class Computer13:
         self.quiet = quiet
 
     def go(self, c, time_limit=60, curiosity=0):
+        c.calculate_moves()
+        if c.score3(c.side) in (0,1):
+            return (None, c.score3(c.side), 0)
         t = Tree(c, time_limit, self.scoring, curiosity, self.quiet)
         # Expect make_choice to return (bestmove, eval_average of that move,
         # eval_count of that move)
@@ -334,7 +337,7 @@ class Computer13:
 
 
 class Tree:
-    '''The tree of moves, which explands using MCTS'''
+    '''The tree of moves, which expands using MCTS'''
 
     def __init__(self, start_board, time_limit,
                  scoring, curiosity=0, quiet=False):
@@ -471,7 +474,9 @@ class Node:
         if self.board.score3('r') in (0, 1):
             # The 'r' is completely arbitrary
             return
-        moves = self.board.clean(self.board.moves[self.board.side])
+        self.board.find_good_moves_for_the_side_to_play()
+        moves = self.board.good_moves
+#        moves = self.board.clean(self.board.moves[self.board.side])
         for m in moves:
             next_board = self.board.copy()
             next_board.move(m)
@@ -490,7 +495,9 @@ class Computer14:
         c = c.copy()
         c.optimize = True
         c.calculate_moves()
-        moves = c.clean(c.moves[c.side])
+        c.find_good_moves_for_the_side_to_play()
+        moves = c.good_moves
+        #moves = c.clean(c.moves[c.side])
         time_limit = time_limit / len(moves)
         best_move = moves[0]
         best_score = -1

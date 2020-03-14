@@ -187,15 +187,15 @@ now on, MCTS ignores playing reserve pieces on empty square unless
 absolutely necessary, just like minimax does.
 
 
-16 January 2020
+16 January 2020, 2131
 r is minimax with depth 4, scoring 3, 0 ordering, unlimited time
 g is minimax with depth 4, scoring 9, 0 ordering, unlimited time
-Recall that score9 counts reserve pieces half as much as score3
+Recall that score9 counts reserve pieces half as much as score3.
 There has been a tie after 119 moves!
 All moves so far ['b2b3', 'b7b6', 'c4c5', 'b5b4', 'c2c3', 'd6c6', 'f2f3', 'e6f6', 'g2g3', 'g7g6', 'f4f5', 'g5g4', 'd7c7', 'f7e7', 'c7e7', 'd2d3', 'e3d3', 'e4f4', 'd5e5', 'f4f5', 'e5f5', 'd4c4', 'c5c7', 'c4c3', 'c7e7', 'c3c5', 'e7e5', 'c5c7', 'b3b5', 'b4d4', 'd3d4', 'c3c4', 'd4f4', 'f6f4', 'e5b5', 'c7e7', 'f5b5', 'e7e2', 'b5g5', 'd3f3', 'g3g5', 'c4d4', 'g5e5', 'f3f7', 'g5g2', 'e2e5', 'g2g5', 'e5a5', 'g5g4', 'g5g4', 'g5g6', 'g4g6', 'rrg6', 'rrg6', 'rrg6', 'g4g6', 'rrg6', 'rrg6', 'rrg6', 'f7f4', 'g6b6', 'f4c4', 'b6b4', 'c4c7', 'b6d6', 'd4b4', 'b6c6', 'b4e4', 'd6d4', 'f4d4', 'c6e6', 'e5e6', 'c6c7', 'a5e5', 'c7c5', 'e5e1', 'c7d7', 'e2f2', 'd7e7', 'f7e7', 'c7d7', 'd4d7', 'c5c3', 'e2e1', 'rre1', 'e4e1', 'rre1', 'e6c6', 'c3c1', 'f2e2', 'c1e1', 'e2e1', 'rre1', 'rre1', 'rre1', 'rre1', 'rre1', 'rre1', 'rre1', 'rre1', 'rre1', 'e7c7', 'e1e3', 'c7c5', 'e1c1', 'b4c4', 'e1e2', 'c4d4', 'c1c3', 'c5c7', 'e3g3', 'd4c4', 'c3e3', 'e6d6', 'g3g5', 'c4d4', 'e3c3', 'd4c4', 'c3e3']
 r has 1 reserve piece to g's 0, but g has the majority of towers on the board, including the only 4-tower.
 
-17 January 2020
+17 January 2020, 900
 r is minimax with depth 3, scoring 3, 0 ordering, 1000 seconds
 g is Hydra with scoring 3, curiosity 0, 1000 seconds
 Result: g wins after 70 moves, except that because of a bug Hydra doesn't actually play the winning move.
@@ -203,4 +203,14 @@ All moves so far ['b2b3', 'f5f4', 'd3d4', 'e4d4', 'c4d4', 'c3b3', 'd4f4', 'f7f6'
 Hydra could play rre1 to win.
 Hydra has 2 (well, 1 after rre1) reserves, 2 5-towers and a 2-tower compared to r's 3-tower.
 
-Recall that score8 counts reserve pieces twice as much as score3
+
+
+17 Jan 2020, 2034
+r is minimax with depth 4, scoring 3, 0 ordering, 1000 seconds
+g is Hydra with scoring 3, curiosity 0, 1000 seconds
+g has won after 70 moves!
+All moves so far ['b2b3', 'f5f4', 'g2g3', 'c3d3', 'f2e2', 'd3d5', 'c2d2', 'g7g6', 'e3f3', 'd6c6', 'e5e4', 'd4e4', 'g4f4', 'e4e2', 'b6c6', 'e4f4', 'b4b5', 'c5b5', 'c6c4', 'f4c4', 'b3d3', 'c7c6', 'f6g6', 'c6c4', 'f3g3', 'e2e5', 'g3g6', 'g5g6', 'e7e6', 'g6g3', 'd3d5', 'b5d5', 'd2d4', 'd5a5', 'e6e5', 'e6e5', 'f4f3', 'b5a5', 'f3g3', 'd5d4', 'rrg6', 'd4f4', 'g6g3', 'f3g3', 'rrg3', 'a5e5', 'g3g5', 'e5a5', 'g3d3', 'd4d3', 'g5f5', 'e5f5', 'd7d8', 'b7c7', 'd8e8', 'c4c8', 'e8d8', 'd3f3', 'rra5', 'f5h5', 'a5e5', 'd5e5', 'rre5', 'rre5', 'd8c8', 'c7c8', 'rre2', 'rre2', 'a5b5', 'rrb5']
+It was surprising that Hydra beat 4-ply, since only Thomas had beaten 4-ply.
+
+
+Recall that score8 counts reserve pieces twice as much as score3.

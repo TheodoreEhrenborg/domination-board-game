@@ -148,7 +148,8 @@ Hydra. I'll store each Board position with the 4-ply evalation and
 then also the 20ish second MCTS evaluation of what the Board is
 worth. I'll have to run quite a lot of games for that, so I don't
 think I'll collect most of the data until I'm back in Cambridge. But I
-can write the data-collection program soon.
+can write the data-collection program soon. Note that the first 4 moves
+should be random.
 
 Then later I can train a neural network that imitates 4-ply evaluation
 and one that imitates 20ish second MCTS. Since the network should take

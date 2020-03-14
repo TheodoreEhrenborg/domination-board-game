@@ -94,3 +94,64 @@ The easiest thing to do right now is create a scoring system that counts
 5-towers. Then average that with the classic scoring, and see whether
 minimax 4-ply gets better.
 
+---------------------------------------------------
+Written January-ish 2020, but typed up 14 March 2020
+Thus I've made some clarifying comments.
+
+Different curiosities at different moves? Or different proportions
+[for MCTS---the computer must spend 50% of the time on the best move
+so far, 25% on the 2nd-best, etc.].
+
+The scoring system that plays a few ahead might be good. But really
+this is Hydra and why did Hydra do so badly? [Because it needed more
+time] Does it just need more time? [Yes] 1000s? [Yeah, try that] Can
+120s MCTS beat 20s MCTS? What is MCTS even doing with the graph?
+i.e. Is it just following one line of thought 30 moves ahead, an utter
+waste of time? I just don't understand the magic formula, so I'm
+tempted to change to the proportional system. "Magic" is the key word
+here. And is MCTS maintaining lots of boards that it doesn't need?
+Does a non-leaf node even need a Board anymore? To be fair, it might
+be even better to have just one board, but that might be
+complicated---I would need a faster move() function, one that doesn't
+bother to check.
+
+
+Of course, 5-ply could beat 4-ply, but I don't want to go there quite yet.
+If I'm after speed, I can probably optimize the board or use Cython. But I want cleverness too. Yeah, Deep Blue used speed to win. But I'm living in the age of AlphaZero. So I need a better static evaluator function, or even a neural network.
+
+Or should a leaf node only get a Board when it is expanded? After all,
+there are probably a lot more leaf nodes that other nodes.
+
+Or maybe MCTS should spend 1/2 its time on the best node, 1/4 on the
+next node, and so on---but all nodes at least 1 [playout] 1st, and
+[then] 1st we fill up the 1/2, then the 1/4, ....
+
+Change how much score3 values reserve pieces? Yes. 1/2 and 2 times as
+much.  And do the 90% proportional system.
+
+-----------------------------
+14 March 2020
+
+I need to write up the games from January, but I recall that 1000
+second Hydra did better than 4-ply. To some extent, we can think of
+MCTS as a static evaluator, which in Hydra is called by 1-ply.
+
+My attempts to change the actual static evaluator did not work out.
+Since Hydra beat 4-ply, we know MCTS with 20ish seconds (I should look
+at the data to see) is a better static evaluator than 3-ply is. And
+since Hydra beat 4-ply with some 5-searches, it might be a better
+static evaluator than 4-ply.
+
+I'm thinking of running a lot of games of 4-ply vs 4-ply, which will
+have lots of good positions but not take as long as 1000 second
+Hydra. I'll store each Board position with the 4-ply evalation and
+then also the 20ish second MCTS evaluation of what the Board is
+worth. I'll have to run quite a lot of games for that, so I don't
+think I'll collect most of the data until I'm back in Cambridge. But I
+can write the data-collection program soon.
+
+Then later I can train a neural network that imitates 4-ply evaluation
+and one that imitates 20ish second MCTS. Since the network should take
+1 second or so to evaluate, I can then run a 3-ply or so minimax,
+which hopefully is like a 7-ply minimax or Hydra with 3-ply,
+respectively.

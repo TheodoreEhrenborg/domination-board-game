@@ -139,7 +139,7 @@ MCTS as a static evaluator, which in Hydra is called by 1-ply.
 My attempts to change the actual static evaluator did not work out.
 Since Hydra beat 4-ply, we know MCTS with 20ish seconds (I should look
 at the data to see) is a better static evaluator than 3-ply is. And
-since Hydra beat 4-ply with some 5-searches, it might be a better
+since Hydra beat 1000 second minimax (4 and 5-ply), it might be a better
 static evaluator than 4-ply.
 
 I'm thinking of running a lot of games of 4-ply vs 4-ply, which will
@@ -155,3 +155,5 @@ and one that imitates 20ish second MCTS. Since the network should take
 1 second or so to evaluate, I can then run a 3-ply or so minimax,
 which hopefully is like a 7-ply minimax or Hydra with 3-ply,
 respectively.
+
+I've improved how the computer searches for moves, in that 1000 second Hydra beats 1000 second minimax, and I could have had minimax that strong in 9th grade if I was willing to wait a long time. But when the computer has to actually evaluate a board, it uses the same division method as in 9th grade. (Was it 9th grade? Maybe 10th?) And adjusting that has not helped much, so I might as well throw a neural network at it. Worst case, I'll have a lot of data, so I can manually guess and check heuristics that have a high correlation with the 4-ply/MCTS 20ish seconds result.

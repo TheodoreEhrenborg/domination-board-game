@@ -3,9 +3,10 @@ import os
 from domination_board import Board
 from time import time
 from domination_computer import Computer10, Computer9, Computer11
+
 all_moves = []
 b = Board()
-tie_list = ['four', 'totally', 'different', 'words']
+tie_list = ["four", "totally", "different", "words"]
 version = 0
 while version < 9 or int(version) != version:
     version = input("Version of r:")
@@ -81,10 +82,14 @@ while len(b.moves[b.side]) > 0 and is_tie == False:
     b.move(move)
     print "Current Score of r:", b.score2("r")
     print "This move took", time() - start_time, "seconds"
-    print 'All moves so far', all_moves
+    print "All moves so far", all_moves
     tie_list[moves_so_far % 4] = move
-    if tie_list[0][:2] == tie_list[2][2:] and tie_list[2][:2] == tie_list[0][2:
-                                                                             ] and tie_list[1][:2] == tie_list[3][2:] and tie_list[3][:2] == tie_list[1][2:]:
+    if (
+        tie_list[0][:2] == tie_list[2][2:]
+        and tie_list[2][:2] == tie_list[0][2:]
+        and tie_list[1][:2] == tie_list[3][2:]
+        and tie_list[3][:2] == tie_list[1][2:]
+    ):
         is_tie = True
 print
 b.display()
@@ -94,4 +99,4 @@ if is_tie:
 else:
     print b.opponent(b.side) + " has won after", moves_so_far, "moves!"
 os.system("say 'The game has finished.'")
-print 'All moves so far', all_moves
+print "All moves so far", all_moves

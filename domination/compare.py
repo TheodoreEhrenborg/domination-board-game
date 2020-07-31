@@ -2,9 +2,10 @@ import os
 from time import time
 from domination_board import Board
 from domination_computer import Computer12, Computer13, Computer14
+
 all_moves = []
 b = Board()
-tie_list = ['four', 'totally', 'different', 'words']
+tie_list = ["four", "totally", "different", "words"]
 version_r = -1
 while (version_r < 12 and version_r != 0) or int(version_r) != version_r:
     version_r = int(input("Version of r (0 means human): "))
@@ -31,8 +32,11 @@ if version_r != 0:
         while depth_r < 0 or int(depth_r) != depth_r:
             depth_r = int(input("Maximum Depth of r: "))
         print()
-        while ordering_r < 0 or int(
-                ordering_r) != ordering_r or (ordering_r >= depth_r and depth_r):
+        while (
+            ordering_r < 0
+            or int(ordering_r) != ordering_r
+            or (ordering_r >= depth_r and depth_r)
+        ):
             ordering_r = int(input("Ordering (can be zero) of r: "))
         print()
     else:
@@ -61,8 +65,11 @@ if version_g != 0:
         while depth_g < 0 or int(depth_g) != depth_g:
             depth_g = int(input("Maximum Depth of g: "))
         print()
-        while ordering_g < 0 or int(
-                ordering_g) != ordering_g or (ordering_g >= depth_g and depth_g):
+        while (
+            ordering_g < 0
+            or int(ordering_g) != ordering_g
+            or (ordering_g >= depth_g and depth_g)
+        ):
             ordering_g = int(input("Ordering (can be zero) of g: "))
         print()
     else:
@@ -81,7 +88,7 @@ while len(b.moves[b.side]) > 0 and is_tie == False:
     if "r" == b.side:
         if version_r == 0:
             move = input("r's move: ")
-            while move not in b.moves['r']:
+            while move not in b.moves["r"]:
                 move = input("Try Again: ")
         elif version_r == 12:
             l = thinker_r.go(b, depth_r, maxtime_r, ordering_r)
@@ -99,7 +106,7 @@ while len(b.moves[b.side]) > 0 and is_tie == False:
     else:
         if version_g == 0:
             move = input("g's move: ")
-            while move not in b.moves['g']:
+            while move not in b.moves["g"]:
                 move = input("Try Again: ")
         elif version_g == 12:
             l = thinker_g.go(b, depth_g, maxtime_g, ordering_g)
@@ -120,10 +127,14 @@ while len(b.moves[b.side]) > 0 and is_tie == False:
     print("Current score8 (2x reserves) of r:", b.score8("r"))
     print("Current score6 (half reserves) of r:", b.score9("r"))
     print("This move took", time() - start_time, "seconds")
-    print('All moves so far', all_moves)
+    print("All moves so far", all_moves)
     tie_list[moves_so_far % 4] = move
-    if tie_list[0][:2] == tie_list[2][2:] and tie_list[2][:2] == tie_list[0][2:
-                                                                             ] and tie_list[1][:2] == tie_list[3][2:] and tie_list[3][:2] == tie_list[1][2:]:
+    if (
+        tie_list[0][:2] == tie_list[2][2:]
+        and tie_list[2][:2] == tie_list[0][2:]
+        and tie_list[1][:2] == tie_list[3][2:]
+        and tie_list[3][:2] == tie_list[1][2:]
+    ):
         is_tie = True
 print()
 b.display()
@@ -133,4 +144,4 @@ if is_tie:
 else:
     print(b.opponent(b.side) + " has won after", moves_so_far, "moves!")
 # os.system("say 'The game has finished.'")
-print('All moves so far', all_moves)
+print("All moves so far", all_moves)

@@ -2,6 +2,7 @@ import os
 from domination_board import Board
 from time import time
 from domination_computer import Computer9
+
 b = Board()
 player = 3
 ordering = -1

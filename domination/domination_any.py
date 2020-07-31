@@ -2,6 +2,7 @@ from domination_board import Board
 from time import time
 from domination_computer import Computer10, Computer9, Computer11
 import os
+
 b = Board()
 player = 3
 ordering = -1
@@ -50,12 +51,12 @@ while len(b.moves[b.side]) > 0:
         print "Projected Score:", l[1]
         print "Depth of Search :", l[2]
         os.system('say "Your move."')
-# for m in b.moves[b.side]:
-# t=b.copy()
-# t.move(m)
-# print(m,t.score2("r"))
-# b.move(move)
-# print
+    # for m in b.moves[b.side]:
+    # t=b.copy()
+    # t.move(m)
+    # print(m,t.score2("r"))
+    # b.move(move)
+    # print
     print "Current Computer Score:", b.score2(b.opponent(player))
     print "This move took", time() - start_time, "seconds"
 # print

@@ -1,6 +1,6 @@
 def Computer9(c, depth=2, time_limit=60, ordering=0):
     """uses user defined ordering at the first level only, direct
-descendant of 6 and shares some features with 8"""
+    descendant of 6 and shares some features with 8"""
     from time import time
 
     end_time = time() + time_limit
@@ -28,7 +28,9 @@ descendant of 6 and shares some features with 8"""
             temp = c.copy()
             temp.move(possmove)
             # print(possmove,alpha,beta,end_time,a_depth)
-            r = -rank9(temp, a_depth - 1, -beta, -alpha, end_time)
+            r = -rank9(
+                temp, a_depth - 1, -beta, -alpha, end_time
+            )
             # print(r)
             # r=-r
             if time() > end_time:
@@ -51,10 +53,19 @@ descendant of 6 and shares some features with 8"""
     return best_list
 
 
-def rank9(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
+def rank9(
+    board,
+    depth,
+    alpha=-1000,
+    beta=1000,
+    end_time=2000000000,
+):
     from time import time
 
-    if depth == 0 or board.score2(board.side) in (-1000, 1000):
+    if depth == 0 or board.score2(board.side) in (
+        -1000,
+        1000,
+    ):
         return board.score2(board.side)
     bestscore = -1000
     # v=0
@@ -131,7 +142,9 @@ def Computer10(c, depth=2, time_limit=60, ordering=0):
             temp = c.copy()
             temp.move(possmove)
             # print(possmove,alpha,beta,end_time,a_depth)
-            r = -rank9(temp, a_depth - 1, -beta, -alpha, end_time)
+            r = -rank9(
+                temp, a_depth - 1, -beta, -alpha, end_time
+            )
             # print(r)
             # r=-r
             if time() > end_time:
@@ -162,7 +175,7 @@ def Computer10(c, depth=2, time_limit=60, ordering=0):
 
 def Computer11(c, depth=2, time_limit=60, ordering=0):
     """Descendent of 9, will not consider playing a reserve piece
- anywhere but on an opponent's tower"""
+    anywhere but on an opponent's tower"""
     from time import time
 
     end_time = time() + time_limit
@@ -191,7 +204,9 @@ def Computer11(c, depth=2, time_limit=60, ordering=0):
             temp = c.copy()
             temp.move(possmove)
             # print(possmove,alpha,beta,end_time,a_depth)
-            r = -rank11(temp, a_depth - 1, -beta, -alpha, end_time)
+            r = -rank11(
+                temp, a_depth - 1, -beta, -alpha, end_time
+            )
             # print(r)
             # r=-r
             if time() > end_time:
@@ -214,10 +229,19 @@ def Computer11(c, depth=2, time_limit=60, ordering=0):
     return best_list
 
 
-def rank11(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
+def rank11(
+    board,
+    depth,
+    alpha=-1000,
+    beta=1000,
+    end_time=2000000000,
+):
     from time import time
 
-    if depth == 0 or board.score2(board.side) in (-1000, 1000):
+    if depth == 0 or board.score2(board.side) in (
+        -1000,
+        1000,
+    ):
         return board.score2(board.side)
     bestscore = -1000
     # v=0
@@ -237,7 +261,9 @@ def rank11(board, depth, alpha=-1000, beta=1000, end_time=2000000000):
         # 20! It's not looking at all possible re-plies!
         temp.move(possmove)
         # if possmove=="g7f7":
-        r = -rank11(temp, depth - 1, -beta, -alpha, end_time)
+        r = -rank11(
+            temp, depth - 1, -beta, -alpha, end_time
+        )
         # if testing:
         # print(possmove, r, bestscore, alpha, beta)
         # if possmove=="g7f7" and z.moves==board.moves:
@@ -308,7 +334,13 @@ class Computer12:
             for possmove in moves:
                 temp = c.copy()
                 temp.move(possmove)
-                r = 1 - self.rank(temp, a_depth - 1, 1 - beta, 1 - alpha, end_time)
+                r = 1 - self.rank(
+                    temp,
+                    a_depth - 1,
+                    1 - beta,
+                    1 - alpha,
+                    end_time,
+                )
                 if time() > end_time:
                     break
                 if (
@@ -327,7 +359,14 @@ class Computer12:
                 break
         return best_list
 
-    def rank(self, board, depth, alpha=0, beta=1, end_time=2000000000):
+    def rank(
+        self,
+        board,
+        depth,
+        alpha=0,
+        beta=1,
+        end_time=2000000000,
+    ):
         from time import time
 
         board.calculate_moves()
@@ -341,7 +380,13 @@ class Computer12:
         for possmove in moves_to_do:
             temp = board.copy()
             temp.move(possmove)
-            r = 1 - self.rank(temp, depth - 1, 1 - beta, 1 - alpha, end_time)
+            r = 1 - self.rank(
+                temp,
+                depth - 1,
+                1 - beta,
+                1 - alpha,
+                end_time,
+            )
             if time() > end_time:
                 return 3
             if r > bestscore:
@@ -365,7 +410,13 @@ class Computer13:
         c.calculate_moves()
         if c.score3(c.side) in (0, 1):
             return (None, c.score3(c.side), 0)
-        t = Tree(c, time_limit, self.scoring, curiosity, self.quiet)
+        t = Tree(
+            c,
+            time_limit,
+            self.scoring,
+            curiosity,
+            self.quiet,
+        )
         # Expect make_choice to return (bestmove, eval_average of that move,
         # eval_count of that move)
         return t.make_choice_visits()
@@ -374,7 +425,14 @@ class Computer13:
 class Tree:
     """The tree of moves, which expands using MCTS"""
 
-    def __init__(self, start_board, time_limit, scoring, curiosity=0, quiet=False):
+    def __init__(
+        self,
+        start_board,
+        time_limit,
+        scoring,
+        curiosity=0,
+        quiet=False,
+    ):
         # Why are time_limit and self.scoring defined at different times?
         from time import time
 
@@ -394,22 +452,29 @@ class Tree:
                 #                print('b', time())
                 best_child = current_node.children[0]
                 for child in current_node.children:
-                    if child.magic_formula(self) > best_child.magic_formula(self):
+                    if child.magic_formula(
+                        self
+                    ) > best_child.magic_formula(self):
                         best_child = child
                 current_node = best_child
             # Now add children to the leaf node
             current_node.add_children()
             # Now run the static evaluator on the leaf,
             # and go up the tree updating the nodes
-            static_score = current_node.board.score3(self.ur_side)
+            static_score = current_node.board.score3(
+                self.ur_side
+            )
             if static_score not in (0, 1):
-                static_score = current_node.board.score(self.ur_side, self.scoring)
+                static_score = current_node.board.score(
+                    self.ur_side, self.scoring
+                )
             #            print('c', time())
             while current_node is not None:
                 current_node.eval_count += 1
                 current_node.eval_sum += static_score
                 current_node.eval_average = (
-                    current_node.eval_sum / current_node.eval_count
+                    current_node.eval_sum
+                    / current_node.eval_count
                 )
                 current_node = current_node.parent
             # And we should end up at the None node above the ur_node
@@ -423,7 +488,11 @@ class Tree:
                 # can compare the eval_averages, which were calculated
                 # based on the ur_side
                 best_child = child
-        return (best_child.last_move, best_child.eval_average, best_child.eval_count)
+        return (
+            best_child.last_move,
+            best_child.eval_average,
+            best_child.eval_count,
+        )
 
     def make_choice_visits(self):
         """Choose a child node depending on which one was visited the most"""
@@ -434,8 +503,16 @@ class Tree:
             if child.eval_count > best_child.eval_count:
                 best_child = child
             if not self.quiet:
-                print(child.last_move, child.eval_average, child.eval_count)
-        return (best_child.last_move, best_child.eval_average, best_child.eval_count)
+                print(
+                    child.last_move,
+                    child.eval_average,
+                    child.eval_count,
+                )
+        return (
+            best_child.last_move,
+            best_child.eval_average,
+            best_child.eval_count,
+        )
 
     def print_path(self):
         """Print out the most likely way the game will go.
@@ -482,9 +559,14 @@ class Node:
             exploration = 100  # That is, infinity
         else:
             exploration = math.sqrt(
-                abs(tree.curiosity) * math.log(self.parent.eval_count) / self.eval_count
+                abs(tree.curiosity)
+                * math.log(self.parent.eval_count)
+                / self.eval_count
             )
-            if tree.curiosity < 0 and self.parent != tree.ur_node:
+            if (
+                tree.curiosity < 0
+                and self.parent != tree.ur_node
+            ):
                 exploration = 0
             # Negative curiosity only has an effect when
             # we're just below the ur_node.
@@ -520,7 +602,9 @@ class Computer14:
 
     def __init__(self, scoring=3):
         self.scoring = scoring
-        self.my_computer13 = Computer13(self.scoring, quiet=True)
+        self.my_computer13 = Computer13(
+            self.scoring, quiet=True
+        )
 
     def go(self, c, time_limit=60, curiosity=0):
         c = c.copy()
@@ -532,11 +616,17 @@ class Computer14:
         time_limit = time_limit / len(moves)
         best_move = moves[0]
         best_score = -1
-        best_depth = 0  # It's not actually depth because it's MCTS.
+        best_depth = (
+            0  # It's not actually depth because it's MCTS.
+        )
         for move in moves:
             next = c.copy()
             next.move(move)
-            next_next_move, move_score, move_count = self.my_computer13.go(
+            (
+                next_next_move,
+                move_score,
+                move_count,
+            ) = self.my_computer13.go(
                 next, time_limit, curiosity
             )
             if 1 - move_score > best_score:

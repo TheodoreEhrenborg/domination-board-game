@@ -1,0 +1,12 @@
+#+TITLE: Domination
+- Domination is a board game I found in my grandmother's basement
+- [[https://www.geekyhobbies.com/domination-aka-focus-board-game-review-and-rules/][Apparently]] it was invented in 1963
+- I did most of this coding in 2015 and 2016
+  + I don't know for sure, since I was writing my code in a Google Doc
+  + I've only recently transferred it to GitHub
+- I seem to remember that I could never make the computer play well
+- As in, a human could beat it by simply avoiding obviously bad moves
+- The computer would start making repetitive moves once there were fewer pieces
+- I would not be surprised if my implementation is inefficient in various ways
+- I don't intend on working on this repo in the future, since I would have to deal with my high school self's messy code
+- So in spring 2021, I started over and [[https://github.com/TheodoreEhrenborg/phutball/][made]] a board game AI for Philosopher's Football
